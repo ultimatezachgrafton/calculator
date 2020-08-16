@@ -2,48 +2,43 @@
 <html>
 <head>
     <link rel="stylesheet" href="style.css">
+    <script src="dom.js"></script>
+    <title>Calculator</title> 
 </head>
 <body>
- <div class="container">
-    <div class="screen-row">
-        <div id="result-screen"></span>
-    </div>
-    <div class="buttons">
-        <div class="rows">
-            <div class="row-1">
-                <button id="btn7" class="button number" value=7>7</button>
-                <button id="btn8" class="button number" value=8>8</button>
-                <button id="btn9" class="button number" value=9>9</button>
-                <button id="btnDivide" class="button operator">/</button>
-                <button id="btnMemoryPlus" class="button operator">M+</button>
-            </div>
-            <div class="row-2">
-                <button id="btn4" class="button number" value=4>4</span>    
-                <button id="btn5" class="button number" value=5>5</span>
-                <button id="btn6" class="button number" value=6>6</span>
-                <button id="btn-multiply" class="button operator">*</span>
-                <button id="btnMemoryMinus" class="button operator">M-</span>
-            </div>
-            <div class="row-3">
-                <button id="btn1" class="button number" value=1>1</button>
-                <button id="btn2" class="button number" value=2>2</span>
-                <button id="btn3" class="button number" value=3>3</span>
-                <button id="btnMinus" class="button operator">-</span>
-                <button id="btn-memory-recall" class="button operator">MR</span>
-            </div>
-            <div class="row-4">
-                <button id="btn0" class="button number" value=0>0</button>
-                <button id="btnDecimal" class="button number">.</button>
-                <button id="btnEquals" class="button operator">=</button>
-                <button id="btnAdd" class="button operator percent">+</button>
-                <button id="btnAndy" class="button operator"><img src="andy.png"></button>
+    <div class="calculator-grid">
+        <div id="result-screen">
+            <div id="previous-operand"></div>
+            <div id="current-operand"></div>
         </div>
-        <button id="btn-clear" class="btn-clear">Clear</button>
-        </div>
-            <div>
-        </div>
-    </div>
-    </div>
 
-    <script src="dom.js"></script>
+        <button id="btn7" class="btn-number" value=7>7</button>
+        <button id="btn8" class="btn-number" value=8>8</button>
+        <button id="btn9" class="btn-number" value=9>9</button>
+        <button id="btnDivide" class="btn-operator">/</button>
+        <button id="btnMemoryPlus" class="btn-operator">M+</button>
+                
+        <button id="btn4" class="btn-number" value=4>4</button>    
+        <button id="btn5" class="btn-number" value=5>5</button>
+        <button id="btn6" class="btn-number" value=6>6</button>
+        <button id="btn-multiply" class="btn-operator">*</button>
+        <button id="btnMemoryMinus" class="btn-operator">M-</button>
+                
+        <button id="btn1" class="btn-number" value=1>1</button>
+        <button id="btn2" class="btn-number" value=2>2</button>
+        <button id="btn3" class="btn-number" value=3>3</button>
+        <button id="btnMinus" class="btn-operator">-</button>
+        <button id="btn-memory-recall" class="btn-operator">MR</button>
+                
+        <button id="btn0" class="btn-number" value=0>0</button>
+        <button id="btnDecimal" class="btn-number">.</button>
+        <button id="btnEquals" class="btn-operator">=</button>
+        <button id="btnAdd" class="btn-operator percent">+</button>
+        <button id="btn-andy" class="btn-operator"></button>
+        
+        <button id="btn-clear" class="span-two">Clear</button>
+        <button id="btn-clear-all" class="span-two">Clear All</button>
+    </button>
+
 </body>
+</html>
