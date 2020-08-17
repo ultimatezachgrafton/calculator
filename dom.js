@@ -1,36 +1,126 @@
-const resultScreen = document.getElementById('result-screen');
+class Calculator { 
+    constructor(previousOperandTextElement, currentOperandTextElement) {
+        this.previousOperandTextElement = previousOperandTextElement
+        this.currentOperandTextElement = currentOperandTextElement
+        this.clear()
+    }
 
-const btn1 = document.getElementById('btn1').addEventListener('click', calculate);
-const btn2 = document.getElementById('btn2').addEventListener('click', calculate);
-const btn3 = document.getElementById('btn3').addEventListener('click', calculate);
-const btn4 = document.getElementById('btn4').addEventListener('click', calculate);
-const btn5 = document.getElementById('btn5').addEventListener('click', calculate);
-const btn6 = document.getElementById('btn6').addEventListener('click', calculate);
-const btn7 = document.getElementById('btn7').addEventListener('click', calculate);
-const btn8 = document.getElementById('btn8').addEventListener('click', calculate);
-const btn9 = document.getElementById('btn9').addEventListener('click', calculate);
-const btn0 = document.getElementById('btn0').addEventListener('click', calculate);
+    clear() {
+        this.currentOperand = ''
+        this.previousOperand = ''
+        this.operator = undefined
+    }
 
-// when decimal is used, only shows to the thousandth
+    delete() {
+        this.currentOperand = this.currentOperand.toString().slice(0, -1)    
 
-let arrayList = []; // initialize to be 10 digits long  
+    }
 
-function calculate() {
-    console.log(event.target.value);
-    // iterate and place in first empty array element
+    appendNumber(number) {
+        if (number === '.' && this.currentOperand.includes('.')) return
+        this.currentOperand = this.currentOperand.toString() + number.toString()
+    }
 
-    arrayList[i];
+    chooseOperator(operator) {
+        if (this.currentOperand === '') return
+        if (this.currentOperand !== '') {
+            this.calculate()
+        }
+        this.operator = operator
+        this.previousOperand = this.currentOperand
+        this.currentOperand = ''
+    }
 
-    // check to make sure no more than 10 digits are displayed at a time
+    calculate() {
+        let calculation
+        const prev = parseFloat(this.previousOperand)
+        const current = parseFloat(this.currentOperand)
+        if (isNan(prev || isNan(current))) return
+        switch (this.operator) {
+            case '+' :
+                calculation = prev + current
+                break
+            case '-' : 
+                calculation = prev - current
+                break
+            case '*' :
+                calculation = prev * current
+                break
+            case '/' :
+                calculation = prev / current
+                break
+            default:
+                return
+        }
 
-    resultScreen.innerHTML = event.target.value;
-    // make new digits show up after the current value instead of replacing it
-    // use arraylist
+    }
 
-    // user Number.toFixed() to round to nearest number
+    getDisplayNumber(number) {
+        const stringNumber = number.toString()
+        const integerDigits = parseFloat(stringNumber.split('.')[0])
+        const decimalDigits = stringNumber.split('.')[1]
+        let integerDisplay
+        if (isNaN(integerDigits)) {
+            integerDigits = ''
+        } else {
+            integerDisplay = integerDigits.toLocaleString( 'en' , {
+                maximumFractionDigits: 0
+            })
+        }
+        if (decimalDigits =! null) {
+            return `${integerDisplay}`//.${decimalDigits}`
+        } else {
+            return integerDisplay
+        }
+    }
 
-    // some examples:
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed
-
+    updateDisplay() {
+        this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
+        if (this.operator!= null) {
+            this.previousOperandTextElement.innerText =
+            `${this.getDisplayNumber(this.previousOperand)} ${this.operator}`
+        } else {
+            this.previousOperandTextElement.innerText = ''
+        }
+    }
 }
+
+const numberButtons = document.querySelectorAll('[data-number]')
+const operatorButtons = document.querySelectorAll('[data-operator]')
+const equalsButton = document.querySelector('[data-equals]')
+const deleteButton = document.querySelector('[data-delete]')
+const clearButton = document.querySelector('[data-clear')
+const allClearButton = document.querySelector('[data-clear-all]')
+const previousOperandTextElement = document.querySelector('[data-previous-operand]')
+const currentOperandTextElement = document.querySelector('[data-current-operand]')
+
+const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+
+numberButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.appendNumber(button.innerText)
+        calculator.updateDisplay()
+    })
+ })
+
+operatorButtons.forEach(button => { 
+    button.addEventListener('click', () => {
+    calculator.chooseOperator(button.innerText)
+    calculator.updateDisplay()
+    })
+ })
+
+ equalsButton.addEventListener('click', button => {
+     calculator.calculate()
+     calculator.updateDisplay()
+})
+
+allClearButton.addEventListener('click', button => {
+    calculator.clear()
+    calculator.updateDisplay()
+})
+
+// deleteButton.addEventListener('click', button => {
+//     calculator.delete()
+//     calculator.updateDisplay()
+// })
