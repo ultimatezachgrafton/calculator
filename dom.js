@@ -12,6 +12,12 @@ class Calculator {
     }
 
     appendNumber(number) {
+        // Checks if the number currently displayed is the result of a previous calculation
+        // If so, it will clear instead of appending 
+        if (hasCalculated) {
+            this.currentOperand = ''
+            hasCalculated = false 
+        }
         // Refuses to allow a second decimal point
         if (number === '.' && this.currentOperand.includes('.')) return
         this.currentOperand = this.currentOperand.toString() + number.toString()
@@ -48,9 +54,10 @@ class Calculator {
             default:
                 return
         }
-        this.currentOperand= calculation
+        this.currentOperand = calculation
         this.operator = undefined
         this.previousOperand = ''
+        hasCalculated = true
     }
 
     getDisplayNumber(number) {
@@ -68,7 +75,6 @@ class Calculator {
         if (decimalDigits != null) {
             return `${integerDisplay}.${decimalDigits}`
         } else {
-            console.log(integerDisplay)
             return integerDisplay
         }
     }
@@ -84,20 +90,16 @@ class Calculator {
     }
 
     onKeyUp(event) {
-        let keyName = event.key
-        if (keyPressedNumbersAllowed.includes(keyName)) {
-            this.appendNumber(keyName)
-        }
-        if (keyPressedOperatorsAllowed.includes(keyName)) {
-            keyName == 'Enter' ? keyName = '=' : this.operator = keyName;
-            console.log(keyName);
-            // this.operator = keyName;
+        let keyPressed = event.key
+        if (keyPressedNumbersAllowed.includes(keyPressed)) {
+            this.appendNumber(keyPressed)
+        } else if (keyPressedOperatorsAllowed.includes(keyPressed)) {
+            this.chooseOperator(keyPressed)
+        } else if (keyPressed === 'Enter') {
             this.calculate();
-        }
-        if (keyName == 'Backspace') {
+        } else if (this.operator === 'Backspace') {
             this.clear();
         }
-        console.log(event)
     }
 }
 
@@ -111,7 +113,9 @@ const previousOperandTextElement = document.querySelector('[data-previous-operan
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
 
 const keyPressedNumbersAllowed = ['0','1','2','3','4','5','6','7','8','9', '.'];
-const keyPressedOperatorsAllowed = ['/', '*', '-', '+', 'Enter'];
+const keyPressedOperatorsAllowed = ['/', '*', '-', '+'];
+
+let hasCalculated = false
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
